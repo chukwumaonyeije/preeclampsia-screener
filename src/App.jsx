@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, ArrowRight, ArrowLeft, AlertCircle, Info, Download, ExternalLink, User } from 'lucide-react';
+import { CheckCircle2, Circle, ArrowRight, ArrowLeft, AlertCircle, Info, Download, ExternalLink, User, Moon, Sun } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -21,6 +21,8 @@ const MODERATE_RISK_FACTORS = [
   { id: 'socioeconomic', text: 'Sociodemographic factors (e.g., low socioeconomic status)' },
   { id: 'black-race', text: 'Black race (reflects structural/social risk factors)' },
   { id: 'ivf', text: 'In vitro fertilization (IVF) pregnancy' },
+  { id: 'lower-income', text: 'Lower income' },
+  { id: 'personal-history', text: 'Personal history factors (e.g., low birthweight, adverse pregnancy outcome, >10 year pregnancy interval)' },
 ];
 
 function App() {
@@ -28,6 +30,22 @@ function App() {
   const [highRiskSelected, setHighRiskSelected] = useState(new Set());
   const [modRiskSelected, setModRiskSelected] = useState(new Set());
   const [showAspirinInfo, setShowAspirinInfo] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    // Check localStorage or system preference
+    const saved = localStorage.getItem('darkMode');
+    if (saved !== null) return JSON.parse(saved);
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  useEffect(() => {
+    // Save preference and update document class
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const toggleHighRisk = (id) => {
     const newSet = new Set(highRiskSelected);
@@ -71,18 +89,33 @@ function App() {
   const progressPercentage = ((currentStep + 1) / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-soft-sage via-white to-soft-sage flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-soft-sage via-white to-soft-sage dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col transition-colors duration-300">
+      {/* Dark Mode Toggle */}
+      <div className="absolute top-4 right-20 z-10">
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-gray-300 dark:border-gray-600"
+          aria-label="Toggle dark mode"
+        >
+          {darkMode ? (
+            <Sun className="w-5 h-5 text-yellow-500" />
+          ) : (
+            <Moon className="w-5 h-5 text-maternal-teal" />
+          )}
+        </button>
+      </div>
+
       {/* Creator Attribution Button */}
       <div className="absolute top-4 right-4 z-10">
         <a
           href="https://DoctorsWhoCode.blog"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-maternal-teal hover:bg-soft-sage"
+          className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-maternal-teal dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
         >
-          <User className="w-4 h-4 text-maternal-teal" />
-          <span className="text-sm font-semibold text-maternal-teal">Created by DoctorsWhoCode</span>
-          <ExternalLink className="w-3 h-3 text-maternal-teal" />
+          <User className="w-4 h-4 text-maternal-teal dark:text-soft-sage" />
+          <span className="text-sm font-semibold text-maternal-teal dark:text-soft-sage">Created by DoctorsWhoCode</span>
+          <ExternalLink className="w-3 h-3 text-maternal-teal dark:text-soft-sage" />
         </a>
       </div>
 
@@ -90,10 +123,10 @@ function App() {
       <div className="absolute top-4 left-4 z-10">
         <button
           onClick={() => setShowAspirinInfo(true)}
-          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-clay hover:bg-soft-sage"
+          className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-clay dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
         >
-          <Info className="w-4 h-4 text-clay" />
-          <span className="text-sm font-semibold text-clay">About Low Dose Aspirin</span>
+          <Info className="w-4 h-4 text-clay dark:text-yellow-500" />
+          <span className="text-sm font-semibold text-clay dark:text-yellow-500">About Low Dose Aspirin</span>
         </button>
       </div>
 
@@ -111,41 +144,41 @@ function App() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-maternal-teal">
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-maternal-teal dark:text-soft-sage">
                   Low Dose Aspirin for Preeclampsia Prevention
                 </h2>
                 <button
                   onClick={() => setShowAspirinInfo(false)}
-                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                  className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 text-2xl"
                 >
                   ×
                 </button>
               </div>
-              <div className="space-y-4 text-gray-700">
+              <div className="space-y-4 text-gray-700 dark:text-gray-300">
                 <section>
-                  <h3 className="font-bold text-lg text-maternal-teal mb-2">What is Low Dose Aspirin?</h3>
+                  <h3 className="font-bold text-lg text-maternal-teal dark:text-soft-sage mb-2">What is Low Dose Aspirin?</h3>
                   <p>Low dose aspirin (81mg daily) is a safe, inexpensive medication that can reduce the risk of preeclampsia in pregnant patients with certain risk factors.</p>
                 </section>
                 <section>
-                  <h3 className="font-bold text-lg text-maternal-teal mb-2">How Does It Work?</h3>
+                  <h3 className="font-bold text-lg text-maternal-teal dark:text-soft-sage mb-2">How Does It Work?</h3>
                   <p>Aspirin has anti-inflammatory and antiplatelet properties that help improve blood flow to the placenta and reduce inflammation, which may help prevent preeclampsia.</p>
                 </section>
                 <section>
-                  <h3 className="font-bold text-lg text-maternal-teal mb-2">When to Start?</h3>
+                  <h3 className="font-bold text-lg text-maternal-teal dark:text-soft-sage mb-2">When to Start?</h3>
                   <p><strong>Ideally:</strong> Between 12-16 weeks of gestation</p>
                   <p><strong>Can start:</strong> Up to 28 weeks of gestation</p>
                   <p><strong>Continue:</strong> Until delivery</p>
                 </section>
                 <section>
-                  <h3 className="font-bold text-lg text-maternal-teal mb-2">Evidence Base</h3>
+                  <h3 className="font-bold text-lg text-maternal-teal dark:text-soft-sage mb-2">Evidence Base</h3>
                   <p>Multiple large studies have shown that low dose aspirin can reduce the risk of preeclampsia by approximately 15-20% in high-risk populations.</p>
                 </section>
                 <section>
-                  <h3 className="font-bold text-lg text-maternal-teal mb-2">Safety</h3>
+                  <h3 className="font-bold text-lg text-maternal-teal dark:text-soft-sage mb-2">Safety</h3>
                   <p>Low dose aspirin is considered safe during pregnancy when used as directed. However, it's not appropriate for everyone. Contraindications include:</p>
                   <ul className="list-disc ml-6 mt-2 space-y-1">
                     <li>Aspirin allergy</li>
@@ -154,9 +187,9 @@ function App() {
                     <li>Severe liver disease</li>
                   </ul>
                 </section>
-                <section className="bg-amber-50 border-2 border-amber-200 rounded-xl p-4">
+                <section className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-xl p-4">
                   <p className="text-sm">
-                    <strong className="text-amber-800">Important:</strong> This information is for educational purposes only. Always consult with your OB/GYN or Maternal-Fetal Medicine specialist before starting any medication during pregnancy.
+                    <strong className="text-amber-800 dark:text-amber-400">Important:</strong> This information is for educational purposes only. Always consult with your OB/GYN or Maternal-Fetal Medicine specialist before starting any medication during pregnancy.
                   </p>
                 </section>
               </div>
@@ -166,7 +199,7 @@ function App() {
       </AnimatePresence>
 
       {/* Progress Bar */}
-      <div className="w-full bg-gray-200 h-1.5">
+      <div className="w-full bg-gray-200 dark:bg-gray-700 h-1.5">
         <motion.div
           className="h-full bg-maternal-teal"
           initial={{ width: 0 }}
@@ -186,7 +219,7 @@ function App() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 w-full sm:h-auto"
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 w-full sm:h-auto"
               >
                 {/* Header */}
                 <div className="mb-6">
@@ -194,12 +227,12 @@ function App() {
                     <div className="w-8 h-8 rounded-full bg-clay text-white flex items-center justify-center text-sm font-bold">
                       1
                     </div>
-                    <span className="text-sm text-gray-500 font-medium">Step 1 of 2</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Step 1 of 2</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-serif font-bold text-maternal-teal mb-2">
+                  <h1 className="text-3xl sm:text-4xl font-serif font-bold text-maternal-teal dark:text-soft-sage mb-2">
                     High-Risk Factors
                   </h1>
-                  <p className="text-gray-600 text-sm sm:text-base">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                     Select all that apply to the patient. Even <strong>one</strong> high-risk factor may indicate aspirin prophylaxis.
                   </p>
                 </div>
@@ -212,11 +245,11 @@ function App() {
                       onClick={() => toggleHighRisk(factor.id)}
                       className={`w-full flex items-center justify-between p-4 border-2 rounded-2xl transition-all cursor-pointer text-left ${
                         highRiskSelected.has(factor.id)
-                          ? 'border-maternal-teal bg-soft-sage'
-                          : 'border-gray-100 hover:border-maternal-teal hover:bg-soft-sage'
+                          ? 'border-maternal-teal bg-soft-sage dark:bg-gray-700 dark:border-soft-sage'
+                          : 'border-gray-100 dark:border-gray-700 hover:border-maternal-teal dark:hover:border-soft-sage hover:bg-soft-sage dark:hover:bg-gray-700'
                       }`}
                     >
-                      <span className="text-gray-800 text-sm sm:text-base pr-4">{factor.text}</span>
+                      <span className="text-gray-800 dark:text-gray-200 text-sm sm:text-base pr-4">{factor.text}</span>
                       {highRiskSelected.has(factor.id) ? (
                         <CheckCircle2 className="w-6 h-6 text-maternal-teal flex-shrink-0" />
                       ) : (
@@ -228,7 +261,7 @@ function App() {
 
                 {/* Navigation */}
                 <div className="flex justify-between items-center pt-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {highRiskSelected.size} selected
                   </div>
                   <button

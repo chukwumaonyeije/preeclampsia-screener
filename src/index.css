@@ -9,3 +9,10 @@
   --font-family-sans: Inter, sans-serif;
   --font-family-serif: 'Playfair Display', serif;
 }
+
+/* Enable dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
