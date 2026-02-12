@@ -8,6 +8,28 @@ This web-based screener helps healthcare professionals identify pregnant patient
 
 **Live Tool:** [https://chukwumaonyeije.github.io/preeclampsia-screener/](https://chukwumaonyeije.github.io/preeclampsia-screener/)
 
+## ✨ Modern React Version
+
+This repository includes two versions:
+1. **Static HTML Version** (`index.html`) - Single-file, lightweight screener
+2. **Modern React Version** - Beautiful, interactive, mobile-first application
+
+### Modern React Features
+- **Conversational UI**: Step-by-step question flow with smooth animations
+- **Serene Design**: Custom color palette (maternal-teal, soft-sage, clay) for a calming healthcare experience
+- **Smooth Transitions**: Framer Motion animations for elegant user experience
+- **Mobile-First**: Fully responsive with touch-optimized interactions
+- **Progress Tracking**: Visual progress bar and step indicators
+- **Faded Disclaimers**: Legally compliant medical disclaimers that are present but not visually overwhelming
+- **Print Support**: Results can be printed for patient records
+
+### Technology Stack
+- React 18+ with Vite for fast development
+- Tailwind CSS for utility-first styling
+- Framer Motion for smooth animations
+- Lucide React for beautiful icons
+- Google Fonts (Inter + Playfair Display)
+
 ## Clinical Guidelines
 
 Based on:
@@ -22,14 +44,28 @@ Based on:
 
 **Timing:** Start between 12-28 weeks gestation (optimally before 16 weeks), continue until delivery.
 
-## Features
+## 🚀 Getting Started (React Version)
 
-- ✅ Evidence-based risk stratification
-- ✅ Clear, actionable recommendations
-- ✅ Mobile-responsive design
-- ✅ No dependencies - single HTML file
-- ✅ Comprehensive medical disclaimers
-- ✅ Keyboard accessible
+### Prerequisites
+- Node.js 16+ and npm
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+The development server will start at `http://localhost:5173/`
 
 ## Usage
 
@@ -49,11 +85,29 @@ All therapeutic decisions must be made in consultation with qualified healthcare
 
 Always consider individual patient circumstances, contraindications, and patient preferences.
 
-## Technology
+## 📁 Project Structure
 
-- Pure HTML/CSS/JavaScript
-- No frameworks or dependencies
-- Static hosting via GitHub Pages
+```
+preeclampsia-screener/
+├── index.html              # Static HTML version (legacy)
+├── src/
+│   ├── App.jsx            # Main React application
+│   ├── index.css          # Tailwind CSS configuration
+│   └── main.jsx           # React entry point
+├── public/                # Static assets
+├── tailwind.config.js     # Tailwind configuration with custom colors
+├── vite.config.js         # Vite configuration
+└── package.json           # Dependencies
+```
+
+## 🎨 Design Philosophy
+
+The modern version follows these principles:
+1. **Medical Trust**: Serene, professional color palette that instills confidence
+2. **Conversational Flow**: One question at a time reduces cognitive load
+3. **Mobile-First**: Optimized for use on phones and tablets in clinical settings
+4. **Subtle Compliance**: Medical disclaimers are present but don't dominate the interface
+5. **Accessibility**: Keyboard navigation, screen reader support, and WCAG compliance
 
 ## License
 
