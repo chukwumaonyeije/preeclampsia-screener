@@ -30,15 +30,19 @@ function App() {
   const [highRiskSelected, setHighRiskSelected] = useState(new Set());
   const [modRiskSelected, setModRiskSelected] = useState(new Set());
   const [showAspirinInfo, setShowAspirinInfo] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage, default to light mode
+  const [darkMode, setDarkMode] = useState(false); // Always start with light mode
+
+  useEffect(() => {
+    // Load saved preference after component mounts
     const saved = localStorage.getItem('darkMode');
-    if (saved !== null) return JSON.parse(saved);
-    return false; // Default to light mode
-  });
+    if (saved !== null) {
+      setDarkMode(JSON.parse(saved));
+    }
+  }, []);
 
   useEffect(() => {
     // Save preference and update document class
+    console.log('Dark mode:', darkMode);
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     if (darkMode) {
       document.documentElement.classList.add('dark');
