@@ -6,7 +6,7 @@ An evidence-based clinical decision support tool for assessing preeclampsia risk
 
 This web-based screener helps healthcare professionals identify pregnant patients who may benefit from low-dose aspirin prophylaxis to reduce preeclampsia risk.
 
-**Live Tool:** [https://chukwumaonyeije.github.io/preeclampsia-screener/](https://chukwumaonyeije.github.io/preeclampsia-screener/)
+**Live Tool:** [https://www.preeclampsia-screener.com/](https://www.preeclampsia-screener.com/)
 
 ## ✨ Modern React Version
 
@@ -66,6 +66,18 @@ npm run preview
 ```
 
 The development server will start at `http://localhost:5173/`
+
+## 🌐 Deployment
+
+This application is deployed on **Vercel** and accessible at:
+- **Production:** [https://www.preeclampsia-screener.com/](https://www.preeclampsia-screener.com/)
+- **Vercel Dashboard:** Automatic deployments on push to `main` branch
+
+### Deployment Features
+- ✅ Automatic SSL/HTTPS
+- ✅ Global CDN for fast worldwide access
+- ✅ Continuous deployment from GitHub
+- ✅ Custom domain with professional DNS configuration
 
 ## Usage
 
