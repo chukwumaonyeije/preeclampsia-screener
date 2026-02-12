@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, ArrowRight, ArrowLeft, AlertCircle, Info } from 'lucide-react';
+import { CheckCircle2, Circle, ArrowRight, ArrowLeft, AlertCircle, Info, Download, ExternalLink, User } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const HIGH_RISK_FACTORS = [
   { id: 'prev-preeclampsia', text: 'History of preeclampsia (especially if early onset or severe)' },
@@ -25,6 +27,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(0); // 0: high-risk, 1: moderate-risk, 2: results
   const [highRiskSelected, setHighRiskSelected] = useState(new Set());
   const [modRiskSelected, setModRiskSelected] = useState(new Set());
+  const [showAspirinInfo, setShowAspirinInfo] = useState(false);
 
   const toggleHighRisk = (id) => {
     const newSet = new Set(highRiskSelected);
@@ -69,6 +72,99 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-soft-sage via-white to-soft-sage flex flex-col">
+      {/* Creator Attribution Button */}
+      <div className="absolute top-4 right-4 z-10">
+        <a
+          href="https://DoctorsWhoCode.blog"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-maternal-teal hover:bg-soft-sage"
+        >
+          <User className="w-4 h-4 text-maternal-teal" />
+          <span className="text-sm font-semibold text-maternal-teal">Created by DoctorsWhoCode</span>
+          <ExternalLink className="w-3 h-3 text-maternal-teal" />
+        </a>
+      </div>
+
+      {/* Low Dose Aspirin Info Button */}
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          onClick={() => setShowAspirinInfo(true)}
+          className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-clay hover:bg-soft-sage"
+        >
+          <Info className="w-4 h-4 text-clay" />
+          <span className="text-sm font-semibold text-clay">About Low Dose Aspirin</span>
+        </button>
+      </div>
+
+      {/* Aspirin Info Modal */}
+      <AnimatePresence>
+        {showAspirinInfo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowAspirinInfo(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-4">
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-maternal-teal">
+                  Low Dose Aspirin for Preeclampsia Prevention
+                </h2>
+                <button
+                  onClick={() => setShowAspirinInfo(false)}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="space-y-4 text-gray-700">
+                <section>
+                  <h3 className="font-bold text-lg text-maternal-teal mb-2">What is Low Dose Aspirin?</h3>
+                  <p>Low dose aspirin (81mg daily) is a safe, inexpensive medication that can reduce the risk of preeclampsia in pregnant patients with certain risk factors.</p>
+                </section>
+                <section>
+                  <h3 className="font-bold text-lg text-maternal-teal mb-2">How Does It Work?</h3>
+                  <p>Aspirin has anti-inflammatory and antiplatelet properties that help improve blood flow to the placenta and reduce inflammation, which may help prevent preeclampsia.</p>
+                </section>
+                <section>
+                  <h3 className="font-bold text-lg text-maternal-teal mb-2">When to Start?</h3>
+                  <p><strong>Ideally:</strong> Between 12-16 weeks of gestation</p>
+                  <p><strong>Can start:</strong> Up to 28 weeks of gestation</p>
+                  <p><strong>Continue:</strong> Until delivery</p>
+                </section>
+                <section>
+                  <h3 className="font-bold text-lg text-maternal-teal mb-2">Evidence Base</h3>
+                  <p>Multiple large studies have shown that low dose aspirin can reduce the risk of preeclampsia by approximately 15-20% in high-risk populations.</p>
+                </section>
+                <section>
+                  <h3 className="font-bold text-lg text-maternal-teal mb-2">Safety</h3>
+                  <p>Low dose aspirin is considered safe during pregnancy when used as directed. However, it's not appropriate for everyone. Contraindications include:</p>
+                  <ul className="list-disc ml-6 mt-2 space-y-1">
+                    <li>Aspirin allergy</li>
+                    <li>Bleeding disorders</li>
+                    <li>Active peptic ulcer disease</li>
+                    <li>Severe liver disease</li>
+                  </ul>
+                </section>
+                <section className="bg-amber-50 border-2 border-amber-200 rounded-xl p-4">
+                  <p className="text-sm">
+                    <strong className="text-amber-800">Important:</strong> This information is for educational purposes only. Always consult with your OB/GYN or Maternal-Fetal Medicine specialist before starting any medication during pregnancy.
+                  </p>
+                </section>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Progress Bar */}
       <div className="w-full bg-gray-200 h-1.5">
         <motion.div
@@ -249,7 +345,25 @@ function App() {
             (obstetrician, maternal-fetal medicine specialist, or other appropriate clinician).
           </p>
           <p className="text-gray-500 text-xs mt-2">
-            Based on ACOG/USPSTF 2021 guidelines • Consult OB/GYN or MFM specialist for all medical decisions
+            Based on{' '}
+            <a
+              href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/07/low-dose-aspirin-use-during-pregnancy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-maternal-teal hover:underline font-semibold"
+            >
+              ACOG Committee Opinion (2018)
+            </a>
+            {' '}and{' '}
+            <a
+              href="https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/aspirin-use-to-prevent-preeclampsia-and-related-morbidity-and-mortality"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-maternal-teal hover:underline font-semibold"
+            >
+              USPSTF guidelines
+            </a>
+            {' '}• Consult OB/GYN or MFM specialist for all medical decisions
           </p>
         </div>
       </footer>
@@ -258,6 +372,66 @@ function App() {
 }
 
 function ResultsView({ recommendation, highCount, modCount, onReset }) {
+  const exportToPDF = async (e) => {
+    const resultsElement = document.getElementById('results-content');
+    if (!resultsElement) {
+      console.error('Results element not found');
+      window.print();
+      return;
+    }
+
+    try {
+      // Show loading state
+      const button = e.currentTarget;
+      const originalText = button.textContent;
+      button.textContent = 'Generating PDF...';
+      button.disabled = true;
+
+      const canvas = await html2canvas(resultsElement, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        windowWidth: resultsElement.scrollWidth,
+        windowHeight: resultsElement.scrollHeight,
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const imgWidth = 190;
+      const pageHeight = 277;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 10;
+
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      pdf.save(`preeclampsia-screening-${timestamp}.pdf`);
+      
+      // Reset button state
+      button.textContent = originalText;
+      button.disabled = false;
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      // Fallback to browser print dialog
+      window.print();
+    }
+  };
+
   const resultConfig = {
     recommend: {
       icon: <CheckCircle2 className="w-16 h-16 text-green-600" />,
@@ -327,7 +501,7 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
   const config = resultConfig[recommendation];
 
   return (
-    <div>
+    <div id="results-content">
       {/* Icon and Title */}
       <div className="flex flex-col items-center text-center mb-6">
         <motion.div
@@ -363,10 +537,11 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
           Start New Assessment
         </button>
         <button
-          onClick={() => window.print()}
-          className="flex-1 border-2 border-maternal-teal text-maternal-teal px-6 py-3 rounded-xl font-semibold hover:bg-soft-sage transition-all"
+          onClick={exportToPDF}
+          className="flex-1 flex items-center justify-center gap-2 border-2 border-maternal-teal text-maternal-teal px-6 py-3 rounded-xl font-semibold hover:bg-soft-sage transition-all"
         >
-          Print Results
+          <Download className="w-5 h-5" />
+          Export PDF
         </button>
       </div>
     </div>
