@@ -282,7 +282,7 @@ function App() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 w-full sm:h-auto"
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 w-full sm:h-auto"
               >
                 {/* Header */}
                 <div className="mb-6">
@@ -290,12 +290,12 @@ function App() {
                     <div className="w-8 h-8 rounded-full bg-clay text-white flex items-center justify-center text-sm font-bold">
                       2
                     </div>
-                    <span className="text-sm text-gray-500 font-medium">Step 2 of 2</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Step 2 of 2</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-serif font-bold text-maternal-teal mb-2">
+                  <h1 className="text-3xl sm:text-4xl font-serif font-bold text-maternal-teal dark:text-soft-sage mb-2">
                     Moderate-Risk Factors
                   </h1>
-                  <p className="text-gray-600 text-sm sm:text-base">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                     Select all that apply. <strong>Two or more</strong> moderate-risk factors may indicate aspirin prophylaxis.
                   </p>
                 </div>
@@ -308,11 +308,11 @@ function App() {
                       onClick={() => toggleModRisk(factor.id)}
                       className={`w-full flex items-center justify-between p-4 border-2 rounded-2xl transition-all cursor-pointer text-left ${
                         modRiskSelected.has(factor.id)
-                          ? 'border-maternal-teal bg-soft-sage'
-                          : 'border-gray-100 hover:border-maternal-teal hover:bg-soft-sage'
+                          ? 'border-maternal-teal bg-soft-sage dark:bg-gray-700 dark:border-soft-sage'
+                          : 'border-gray-100 dark:border-gray-700 hover:border-maternal-teal dark:hover:border-soft-sage hover:bg-soft-sage dark:hover:bg-gray-700'
                       }`}
                     >
-                      <span className="text-gray-800 text-sm sm:text-base pr-4">{factor.text}</span>
+                      <span className="text-gray-800 dark:text-gray-200 text-sm sm:text-base pr-4">{factor.text}</span>
                       {modRiskSelected.has(factor.id) ? (
                         <CheckCircle2 className="w-6 h-6 text-maternal-teal flex-shrink-0" />
                       ) : (
@@ -326,13 +326,13 @@ function App() {
                 <div className="flex justify-between items-center pt-4">
                   <button
                     onClick={() => setCurrentStep(0)}
-                    className="flex items-center gap-2 text-maternal-teal font-semibold hover:underline"
+                    className="flex items-center gap-2 text-maternal-teal dark:text-soft-sage font-semibold hover:underline"
                   >
                     <ArrowLeft className="w-5 h-5" />
                     Back
                   </button>
                   <div className="flex items-center gap-4">
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                       {modRiskSelected.size} selected
                     </div>
                     <button
@@ -354,7 +354,7 @@ function App() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 w-full"
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 w-full"
               >
                 <ResultsView
                   recommendation={calculateRecommendation()}
@@ -369,7 +369,7 @@ function App() {
       </div>
 
       {/* Faded Footer Disclaimer */}
-      <footer className="opacity-50 hover:opacity-100 transition-opacity duration-500 p-6 text-center text-xs text-gray-600 max-w-4xl mx-auto">
+      <footer className="opacity-50 hover:opacity-100 transition-opacity duration-500 p-6 text-center text-xs text-gray-600 dark:text-gray-400 max-w-4xl mx-auto">
         <div className="space-y-2">
           <p className="font-semibold">⚠️ INFORMATIONAL USE ONLY</p>
           <p>
@@ -377,13 +377,13 @@ function App() {
             All therapeutic decisions, including aspirin prophylaxis, must be discussed with and prescribed by a qualified healthcare provider 
             (obstetrician, maternal-fetal medicine specialist, or other appropriate clinician).
           </p>
-          <p className="text-gray-500 text-xs mt-2">
+          <p className="text-gray-500 dark:text-gray-500 text-xs mt-2">
             Based on{' '}
             <a
               href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2018/07/low-dose-aspirin-use-during-pregnancy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-maternal-teal hover:underline font-semibold"
+              className="text-maternal-teal dark:text-soft-sage hover:underline font-semibold"
             >
               ACOG Committee Opinion (2018)
             </a>
@@ -392,7 +392,7 @@ function App() {
               href="https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/aspirin-use-to-prevent-preeclampsia-and-related-morbidity-and-mortality"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-maternal-teal hover:underline font-semibold"
+              className="text-maternal-teal dark:text-soft-sage hover:underline font-semibold"
             >
               USPSTF guidelines
             </a>
@@ -470,17 +470,17 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
       icon: <CheckCircle2 className="w-16 h-16 text-green-600" />,
       title: 'Aspirin Prophylaxis Recommended',
       color: 'green',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200',
+      bgColor: 'bg-green-50 dark:bg-green-900/20',
+      borderColor: 'border-green-200 dark:border-green-700',
       content: (
         <>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Guideline-Based Assessment:</strong> Patient meets ACOG/USPSTF criteria for low-dose aspirin prophylaxis consideration (81mg daily).
           </p>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Timing:</strong> Per guidelines, ideally initiate between 12-16 weeks of gestation; may start up to 28 weeks. Continue until delivery.
           </p>
-          <p className="text-gray-700">
+          <p className="text-gray-700 dark:text-gray-300">
             <strong>Next Steps:</strong> Patient must consult with their OB/GYN or Maternal-Fetal Medicine specialist to discuss benefits, risks, contraindications, 
             and whether aspirin therapy is appropriate for their individual situation.
           </p>
@@ -491,18 +491,18 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
       icon: <AlertCircle className="w-16 h-16 text-amber-600" />,
       title: 'Consider Aspirin - Clinical Judgment Required',
       color: 'amber',
-      bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-200',
+      bgColor: 'bg-amber-50 dark:bg-amber-900/20',
+      borderColor: 'border-amber-200 dark:border-amber-700',
       content: (
         <>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Assessment:</strong> Patient has one moderate-risk factor, which does not automatically meet standard guideline criteria.
           </p>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Recommendation:</strong> Discuss with OB/GYN or Maternal-Fetal Medicine specialist. Decision should involve shared decision-making, 
             considering patient preference, other risk factors not captured by this tool, and individual clinical context.
           </p>
-          <p className="text-gray-700">
+          <p className="text-gray-700 dark:text-gray-300">
             <strong>Note:</strong> Some clinicians may recommend aspirin based on individual patient circumstances. Only a qualified healthcare provider can make this determination.
           </p>
         </>
@@ -512,17 +512,17 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
       icon: <Info className="w-16 h-16 text-blue-600" />,
       title: 'Aspirin Not Currently Indicated',
       color: 'blue',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
+      borderColor: 'border-blue-200 dark:border-blue-700',
       content: (
         <>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Assessment:</strong> Based on information provided, patient does not meet current ACOG/USPSTF criteria for routine aspirin prophylaxis.
           </p>
-          <p className="text-gray-700 mb-3">
+          <p className="text-gray-700 dark:text-gray-300 mb-3">
             <strong>Recommendation:</strong> Discuss results with healthcare provider. Continue standard prenatal care with routine blood pressure monitoring as directed by OB/GYN.
           </p>
-          <p className="text-gray-700">
+          <p className="text-gray-700 dark:text-gray-300">
             <strong>Patient Education:</strong> Healthcare provider should educate patient on preeclampsia warning signs (severe headache, vision changes, 
             right upper quadrant pain, severe swelling) and when to seek immediate medical attention.
           </p>
@@ -544,14 +544,14 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
         >
           {config.icon}
         </motion.div>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-maternal-teal mt-4 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-maternal-teal dark:text-soft-sage mt-4 mb-2">
           {config.title}
         </h2>
       </div>
 
       {/* Summary Box */}
       <div className={`${config.bgColor} border-2 ${config.borderColor} rounded-2xl p-4 mb-6`}>
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700 dark:text-gray-300">
           <strong>Risk Factor Count:</strong> {highCount} high-risk, {modCount} moderate-risk
         </p>
       </div>
@@ -571,7 +571,7 @@ function ResultsView({ recommendation, highCount, modCount, onReset }) {
         </button>
         <button
           onClick={exportToPDF}
-          className="flex-1 flex items-center justify-center gap-2 border-2 border-maternal-teal text-maternal-teal px-6 py-3 rounded-xl font-semibold hover:bg-soft-sage transition-all"
+          className="flex-1 flex items-center justify-center gap-2 border-2 border-maternal-teal dark:border-soft-sage text-maternal-teal dark:text-soft-sage px-6 py-3 rounded-xl font-semibold hover:bg-soft-sage dark:hover:bg-gray-700 transition-all"
         >
           <Download className="w-5 h-5" />
           Export PDF
