@@ -10,9 +10,10 @@
   --font-family-serif: 'Playfair Display', serif;
 }
 
-/* Enable dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-  }
+/* Force manual dark mode control via 'dark' class */
+@variant dark (&:where(.dark, .dark *));
+
+/* Force manual dark mode control via 'dark' class */
+.dark {
+  color-scheme: dark;
 }

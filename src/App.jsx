@@ -30,20 +30,47 @@ function App() {
   const [highRiskSelected, setHighRiskSelected] = useState(new Set());
   const [modRiskSelected, setModRiskSelected] = useState(new Set());
   const [showAspirinInfo, setShowAspirinInfo] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage, default to light mode
-    const saved = localStorage.getItem('darkMode');
-    if (saved !== null) return JSON.parse(saved);
-    return false; // Default to light mode
-  });
+  const [darkMode, setDarkMode] = useState(false);
 
+  // Initialize dark mode on mount
   useEffect(() => {
-    // Save preference and update document class
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const initDarkMode = () => {
+      try {
+        const saved = localStorage.getItem('theme-preference');
+        if (saved === 'dark') {
+          setDarkMode(true);
+          document.documentElement.classList.add('dark');
+        } else {
+          // Explicitly ensure light mode
+          setDarkMode(false);
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (error) {
+        console.error('Error loading theme:', error);
+        setDarkMode(false);
+        document.documentElement.classList.remove('dark');
+      }
+    };
+    
+    initDarkMode();
+  }, []);
+
+  // Update dark mode when state changes
+  useEffect(() => {
+    console.log('Dark mode state changed to:', darkMode);
+    console.log('Document classes before:', document.documentElement.className);
+    
+    try {
+      localStorage.setItem('theme-preference', darkMode ? 'dark' : 'light');
+      if (darkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      console.log('Document classes after:', document.documentElement.className);
+    } catch (error) {
+      console.error('Error saving theme:', error);
     }
   }, [darkMode]);
 
