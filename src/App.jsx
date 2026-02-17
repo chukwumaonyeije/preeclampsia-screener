@@ -424,7 +424,7 @@ function App() {
             </a>
             {' '}and{' '}
             <a
-              href="https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/aspirin-use-to-prevent-preeclampsia-and-related-morbidity-and-mortality"
+              href="https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/low-dose-aspirin-use-for-the-prevention-of-morbidity-and-mortality-from-preeclampsia-preventive-medication"
               target="_blank"
               rel="noopener noreferrer"
               className="text-maternal-teal dark:text-soft-sage hover:underline font-semibold"
