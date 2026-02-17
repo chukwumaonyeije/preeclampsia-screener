@@ -117,49 +117,52 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-soft-sage via-white to-soft-sage dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col transition-colors duration-300">
-      {/* Creator Attribution & Dark Mode Toggle */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-        {/* Creator Attribution */}
-        <a
-          href="https://DoctorsWhoCode.blog"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-maternal-teal dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
-        >
-          <User className="w-4 h-4 text-maternal-teal dark:text-soft-sage" />
-          <span className="text-sm font-semibold text-maternal-teal dark:text-soft-sage">Created by DoctorsWhoCode</span>
-          <ExternalLink className="w-3 h-3 text-maternal-teal dark:text-soft-sage" />
-        </a>
-        
-        {/* Dark Mode Toggle */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-gray-300 dark:border-gray-600"
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? (
-            <>
-              <Sun className="w-4 h-4 text-yellow-500" />
-              <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">Light Mode</span>
-            </>
-          ) : (
-            <>
-              <Moon className="w-4 h-4 text-maternal-teal" />
-              <span className="text-sm font-semibold text-gray-700">Dark Mode</span>
-            </>
-          )}
-        </button>
-      </div>
+      {/* Header - Responsive Layout */}
+      <div className="w-full p-4 z-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:justify-between gap-3">
+          {/* Low Dose Aspirin Info Button */}
+          <button
+            onClick={() => setShowAspirinInfo(true)}
+            className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-clay dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
+          >
+            <Info className="w-4 h-4 text-clay dark:text-yellow-500" />
+            <span className="text-sm font-semibold text-clay dark:text-yellow-500">About Low Dose Aspirin</span>
+          </button>
 
-      {/* Low Dose Aspirin Info Button */}
-      <div className="absolute top-4 left-4 z-10">
-        <button
-          onClick={() => setShowAspirinInfo(true)}
-          className="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-clay dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
-        >
-          <Info className="w-4 h-4 text-clay dark:text-yellow-500" />
-          <span className="text-sm font-semibold text-clay dark:text-yellow-500">About Low Dose Aspirin</span>
-        </button>
+          {/* Right Side: Creator Attribution & Dark Mode Toggle */}
+          <div className="flex flex-col sm:flex-row gap-2">
+            {/* Creator Attribution */}
+            <a
+              href="https://DoctorsWhoCode.blog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-maternal-teal dark:border-gray-600 hover:bg-soft-sage dark:hover:bg-gray-700"
+            >
+              <User className="w-4 h-4 text-maternal-teal dark:text-soft-sage" />
+              <span className="text-sm font-semibold text-maternal-teal dark:text-soft-sage">Created by DoctorsWhoCode</span>
+              <ExternalLink className="w-3 h-3 text-maternal-teal dark:text-soft-sage" />
+            </a>
+            
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="flex items-center justify-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-gray-300 dark:border-gray-600"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? (
+                <>
+                  <Sun className="w-4 h-4 text-yellow-500" />
+                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-maternal-teal" />
+                  <span className="text-sm font-semibold text-gray-700">Dark Mode</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Aspirin Info Modal */}
